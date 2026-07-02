@@ -3,6 +3,7 @@ package com.bancorm.transferencia.aplicacao;
 import com.bancorm.transferencia.dominio.Conta;
 import com.bancorm.transferencia.dominio.RegraTransferencia;
 import com.bancorm.transferencia.portas.ContaRepository;
+import com.bancorm.transferencia.portas.NotificarTransferenciaPort;
 import com.bancorm.transferencia.portas.TransferirDinheiroUseCase;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +16,11 @@ public class TransferirDinheiroService implements TransferirDinheiroUseCase {
 
     private final RegraTransferencia regraTransferencia = new RegraTransferencia();
 
-    public TransferirDinheiroService(ContaRepository contaRepository) {
+    private final NotificarTransferenciaPort notificador;
+
+    public TransferirDinheiroService(ContaRepository contaRepository, NotificarTransferenciaPort notificador) {
         this.contaRepository = contaRepository;
+        this.notificador = notificador;
     }
 
     @Override
@@ -32,6 +36,8 @@ public class TransferirDinheiroService implements TransferirDinheiroUseCase {
 
         contaRepository.salvar(Origem);
         contaRepository.salvar(Destino);
+
+        notificador.notificar(idContaOrigem, idContaDestino, valor);
 
     }
 }
