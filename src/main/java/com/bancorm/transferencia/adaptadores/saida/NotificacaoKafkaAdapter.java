@@ -5,7 +5,6 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
-import java.sql.SQLOutput;
 
 @Component
 public class NotificacaoKafkaAdapter implements NotificarTransferenciaPort {
